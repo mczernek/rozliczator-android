@@ -18,14 +18,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-    }
-    
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu){
-    	MenuInflater inflater = getMenuInflater();
-    	inflater.inflate(R.menu.events_list_menu, menu);
-    	return true;
+        setContentView(R.layout.splash_activity);
     }
 
 }
