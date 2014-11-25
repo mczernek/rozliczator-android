@@ -2,12 +2,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
-    tools:context="pl.kap11.rozliczator.MainActivity" >
+    android:background="#68000000"
+    tools:context="pl.kap11.rozliczator.SplashActivity" >
 
-    <fragment 
-        android:id="@+id/main_fragment"
+    <TextView
+        android:id="@+id/loading_text"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-    
+        android:layout_height="match_parent"
+        android:gravity="center_vertical|center_horizontal"
+        android:shadowColor="@android:color/black"
+        android:shadowDy="3"
+        android:shadowRadius="8"
+        android:text="WELCOME!"
+        android:textColor="@android:color/white"
+        android:textSize="38sp" />
+
 </RelativeLayout>
