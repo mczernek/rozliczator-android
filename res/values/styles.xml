@@ -1,7 +1,7 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- Application theme. -->
-    <style name="AppTheme" parent="@android:style/Theme.Holo.Light">
+    <style name="ChujTheme" parent="@android:style/Theme.Holo.Light">
         <item name="android:background">@drawable/background</item>
         <item name="android:windowActionBarOverlay">true</item>
         <item name="android:actionBarStyle">@style/ActionBarTheme</item>
@@ -16,6 +16,10 @@
     <style name="ActionBarTheme" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
         <item name="android:background">#cc000000</item>
         <item name="android:height">45dp</item>
+    </style>
+    
+    <style name="ActionBarActivity">
+        <item name="android:paddingTop">?android:attr/actionBarSize</item>
     </style>
 
 </resources>

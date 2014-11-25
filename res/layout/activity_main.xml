@@ -1,13 +1,21 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:tools="http://schemandroid.com/tools"
+    android:paddingTop="?android:attr/actionBarSize"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#6829ADFF"
-    tools:context="pl.kap11.rozliczator.SplashActivity" >
+    android:layout_height="match_parent" >
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
         android:text="@string/hello_world" />
+
+    <!-- <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="Copyright Michał Czernek" /> -->
 
 </RelativeLayout>
