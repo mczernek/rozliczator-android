@@ -46,6 +46,10 @@ public class Event implements Parcelable {
 		return items.size();
 	}
 	
+	public String getName(){
+		return name;
+	}
+	
 	public void getSummaryValue(){
 	}
 	

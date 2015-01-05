@@ -2,24 +2,30 @@
 
     <!-- Application theme. -->
     <style name="ChujTheme" parent="@android:style/Theme.Holo.Light">
-        <item name="android:background">@drawable/background</item>
-        <item name="android:windowActionBarOverlay">true</item>
         <item name="android:actionBarStyle">@style/ActionBarTheme</item>
     </style>
     
     <style name="SplashTheme" parent="@android:style/Theme.Holo.Light">
         <item name="android:windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
-        <item name="android:background">@drawable/background</item>
+        <item name="android:background">#ffffff</item>
     </style>
     
     <style name="ActionBarTheme" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
-        <item name="android:background">#cc000000</item>
-        <item name="android:height">45dp</item>
+        <item name="android:background">#30c27e</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:height">50dp</item>
+        <item name="android:logo">@drawable/title</item>
     </style>
     
     <style name="ActionBarActivity">
-        <item name="android:paddingTop">?android:attr/actionBarSize</item>
+        <item name="android:background">#ffffff</item>
+    </style>
+    
+    <style name="ListViewStyle">
+    </style>
+    
+    <style name="TextViewStyle">
     </style>
 
 </resources>

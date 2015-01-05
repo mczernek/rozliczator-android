@@ -7,18 +7,19 @@ import java.util.Random;
 import pl.kap11.rozliczator.event.Event;
 import pl.kap11.rozliczator.item.Item;
 import pl.kap11.rozliczator.person.Person;
-import android.widget.ListView;
 
 public class TemporaryEventStorage implements EventStorage {
 
-	private static final List<Event> eventsList;
+	private static final List<ContentListener> contentListeners = new LinkedList<ContentListener>();
+	
+	private static final List<Event> eventsList = new LinkedList<Event>();
 
 	private final static int EVENTS_COUNT = 10;
 
 	private static final String[] eventNames = new String[] { "chlanie",
 			"wakacje", "Weekend", "Planszówki + wódka", "Impreza na mieście",
 			"Burdel z chłopakami", "Mecz Wisły", "Zakupy z rodzicami",
-			"Nic ciekawego" };
+			"Nic ciekawego", "Squash z pedałami" };
 
 	private static final String[] peopleGivenNames = new String[] { "Andrzej",
 			"Stefan", "Bożena", "Lucyna", "Wiktoriusz", "Buba" };
@@ -30,7 +31,6 @@ public class TemporaryEventStorage implements EventStorage {
 			"Wódka", "Mąka", "Twaróg", "Kupa" };
 
 	static {
-		eventsList = new LinkedList<Event>();
 		Random rand = new Random();
 		for (int i = 0; i < EVENTS_COUNT; ++i) {
 			Event toAdd = new Event(eventNames[i]);
@@ -42,6 +42,7 @@ public class TemporaryEventStorage implements EventStorage {
 				Item item = generateRandomItem(rand);
 				toAdd.addItem(item);
 			}
+			eventsList.add(toAdd);
 		}
 	}
 
@@ -61,16 +62,44 @@ public class TemporaryEventStorage implements EventStorage {
 	@Override
 	public void saveEvent(Event event) {
 		eventsList.add(event);
+		notifyItemAdded(event, eventsList.size()-1);
 	}
-
-	@Override
-	public void setEventDisplay(ListView list) {
-		// TODO Auto-generated method stub
+	
+	public List<Event> getEvents(){
+		return eventsList;
 	}
 
 	@Override
 	public void refresh() {
 		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void registerContentListener(ContentListener listener) {
+			contentListeners.add(listener);
+	}
+
+	@Override
+	public void unregisterContentListener(ContentListener listener) {
+		contentListeners.remove(listener);
+	}
+	
+	public void notifyItemAdded(Event item, int position){
+		for(ContentListener listener: contentListeners){
+			listener.onItemAdded(item, position);
+		}
+	}
+	
+	public void notifyItemRemoved(Event item, int position){
+		for(ContentListener listener: contentListeners){
+			listener.onItemRemoved(item, position);
+		}
+	}
+	
+	public void notifyContentCleared(){
+		for(ContentListener listener: contentListeners){
+			listener.onStorageCleared();
+		}
 	}
 
 }

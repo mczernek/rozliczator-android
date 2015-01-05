@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:paddingStart="15sp"
+    android:paddingEnd="15sp"
+    android:orientation="vertical" >
+    
+    <TextView
+        style="@style/TextViewStyle"
+        android:id="@+id/event_title"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:textSize="25dp"
+        android:textColor="#38c47d"/>
+    
+     <TextView
+        style="@style/TextViewStyle"
+        android:id="@+id/event_guests"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        android:maxLines="2"
+        android:textSize="15dp"
+        android:textColor="#9b9b9b"/>
+    
+
+</LinearLayout>

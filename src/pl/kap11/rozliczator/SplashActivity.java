@@ -3,8 +3,6 @@ package pl.kap11.rozliczator;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
-import android.widget.TextView;
 
 
 public class SplashActivity extends Activity {
@@ -16,7 +14,7 @@ public class SplashActivity extends Activity {
         setContentView(R.layout.splash_activity);
         
         try{
-            Thread.sleep(2000);
+            Thread.sleep(500);
         }catch(InterruptedException ex){}
         finally{
         	Intent intent = new Intent(this, MainActivity.class);
