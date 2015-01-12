@@ -14,10 +14,6 @@ import android.widget.ListView;
 
 public class EventsFragment extends Fragment {
 
-    public interface EventsDisplayer{
-        public void displayEvent(Event event);
-    }
-
     private EventsDisplayer displayer;
 
 	public void setEventsDisplayer(EventsDisplayer displayer){

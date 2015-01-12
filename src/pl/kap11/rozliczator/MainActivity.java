@@ -1,40 +1,35 @@
 package pl.kap11.rozliczator;
 
 import android.app.Activity;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.TextView;
 
-import pl.kap11.rozliczator.animation.ExpandableOnClickView;
+import pl.kap11.rozliczator.animation.BottomActionButtons;
+import pl.kap11.rozliczator.animation.BottomButtonsFactory;
+import pl.kap11.rozliczator.animation.SingleBottomButton;
 import pl.kap11.rozliczator.event.Event;
-import pl.kap11.rozliczator.event.EventFragment;
-import pl.kap11.rozliczator.event.EventsFragment;
+import pl.kap11.rozliczator.event.EventDisplay;
 
-import static pl.kap11.rozliczator.event.EventsFragment.*;
-
-public class MainActivity extends Activity implements ExpandableOnClickView.VisibilityListener, EventsDisplayer{
+public class MainActivity extends Activity implements SingleBottomButton.VisibilityListener, EventDisplay.EventsDisplayStateCallbacks {
 
     View bottomButton;
     View bottomFragment;
     View mainFragmentContainer;
-    EventsFragment mainFragment;
+
+    EventDisplay eventDisplay;
+
     View mainFragmentOverlay;
 
-    ExpandableOnClickView expandableView;
+    BottomActionButtons expandableView;
 
     @Override
-	public void onCreate(final Bundle savedState){
-		super.onCreate(savedState);
-		setContentView(R.layout.activity_main);
+    public void onCreate(final Bundle savedState) {
+        super.onCreate(savedState);
+        setContentView(R.layout.activity_main);
 
-		FragmentManager manager = getFragmentManager();
-        mainFragment = new EventsFragment();
-        mainFragment.setEventsDisplayer(this);
-        FragmentTransaction transaction = manager.beginTransaction();
-        transaction.replace(R.id.main_fragment_container, mainFragment);
-        transaction.commit();
+        eventDisplay = new EventDisplay(this, R.id.main_fragment_container, this);
 
         bottomButton = findViewById(R.id.bottom_buttons);
         mainFragmentContainer = findViewById(R.id.main_fragment_container);
@@ -45,9 +40,9 @@ public class MainActivity extends Activity implements ExpandableOnClickView.Visi
                 return false;
             }
         });
-        bottomFragment = findViewById(R.id.bottom_fragment);
+        bottomFragment = findViewById(R.id.hidden_fragment);
         mainFragmentOverlay = findViewById(R.id.man_fragment_overlay);
-        mainFragmentOverlay.setOnTouchListener( new View.OnTouchListener() {
+        mainFragmentOverlay.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 expandableView.collapse();
@@ -55,13 +50,14 @@ public class MainActivity extends Activity implements ExpandableOnClickView.Visi
             }
         });
 
-        expandableView = new ExpandableOnClickView(bottomButton, bottomFragment, ExpandableOnClickView.State.COLLAPSED);
+        TextView bottomText = (TextView)findViewById(R.id.bottom_text);
+        expandableView = BottomButtonsFactory.getBottomButtons(bottomButton, bottomFragment, SingleBottomButton.State.COLLAPSED, bottomText);
         expandableView.addSizeListener(this);
 
-	}
+    }
 
     @Override
-    public void onDestroy(){
+    public void onDestroy() {
         super.onDestroy();
         expandableView.removeSizeListener(this);
     }
@@ -94,23 +90,24 @@ public class MainActivity extends Activity implements ExpandableOnClickView.Visi
     }
 
     @Override
-    public void displayEvent(Event event) {
-        EventFragment eventFragment = new EventFragment(event);
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.setCustomAnimations(R.anim.slide_in_from_right , R.anim.slide_out_to_left, R.anim.slide_in_from_left, R.anim.slide_out_to_right); //TODO: Create own animators for each slide in/out and set custom animations, and pop custom animations
-        transaction.replace(R.id.main_fragment_container, eventFragment);
-        transaction.addToBackStack("displayEvent");
-        transaction.commit();
-        expandableView.collapse();
+    public void onBackPressed() {
+        if (expandableView.isExpanded()) {
+            expandableView.collapse();
+        } else {
+            if (!eventDisplay.backPressed()) {
+                super.onBackPressed();
+            }
+        }
     }
 
     @Override
-    public void onBackPressed(){
-        if(expandableView.isExpanded()){
-            expandableView.collapse();
-        }else{
-            super.onBackPressed();
-        }
+    public void onEventDetailsDisplayed(Event event) {
+        expandableView.setEventDetailsAction(this);
+    }
+
+    @Override
+    public void onEventsListDisplayed() {
+        expandableView.setEventListsAction(this);
     }
 
 }

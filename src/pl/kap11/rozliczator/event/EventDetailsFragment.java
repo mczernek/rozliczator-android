@@ -12,13 +12,13 @@ import pl.kap11.rozliczator.R;
 /**
  * Created by mczernek on 10.01.15.
  */
-public class EventFragment extends Fragment {
+public class EventDetailsFragment extends Fragment {
 
     private Event event;
 
-    public EventFragment(){}
+    public EventDetailsFragment(){}
 
-    public EventFragment(Event event){
+    public EventDetailsFragment(Event event){
         this.event = event;
     }
 

@@ -40,6 +40,7 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/bottom_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
@@ -58,7 +59,7 @@
             android:visibility="visible">
 
         <TextView
-            android:id="@+id/bottom_fragment"
+            android:id="@+id/hidden_fragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#80000000"
