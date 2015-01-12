@@ -4,19 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <FrameLayout
+    <pl.kap11.rozliczator.animation.TranslatableFrameLayout
         android:id="@+id/main_fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/bottom_button"
-        android:visibility="visible">
-
-        <fragment
-            android:id="@+id/main_fragment"
-            android:name="pl.kap11.rozliczator.event.EventsFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </FrameLayout>
+        android:layout_above="@+id/bottom_button"/>
 
     <View
         android:id="@+id/man_fragment_overlay"

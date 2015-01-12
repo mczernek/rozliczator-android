@@ -1,20 +1,25 @@
 package pl.kap11.rozliczator;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 
 import pl.kap11.rozliczator.animation.ExpandableOnClickView;
+import pl.kap11.rozliczator.event.Event;
+import pl.kap11.rozliczator.event.EventFragment;
+import pl.kap11.rozliczator.event.EventsFragment;
 
-public class MainActivity extends Activity implements ExpandableOnClickView.VisibilityListener{
+import static pl.kap11.rozliczator.event.EventsFragment.*;
+
+public class MainActivity extends Activity implements ExpandableOnClickView.VisibilityListener, EventsDisplayer{
 
     View bottomButton;
     View bottomFragment;
     View mainFragmentContainer;
-    Fragment mainFragment;
+    EventsFragment mainFragment;
     View mainFragmentOverlay;
 
     ExpandableOnClickView expandableView;
@@ -25,12 +30,30 @@ public class MainActivity extends Activity implements ExpandableOnClickView.Visi
 		setContentView(R.layout.activity_main);
 
 		FragmentManager manager = getFragmentManager();
-        Fragment fragment = manager.findFragmentById(R.id.main_fragment);
+        mainFragment = new EventsFragment();
+        mainFragment.setEventsDisplayer(this);
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.replace(R.id.main_fragment_container, mainFragment);
+        transaction.commit();
 
         bottomButton = findViewById(R.id.bottom_buttons);
         mainFragmentContainer = findViewById(R.id.main_fragment_container);
+        mainFragmentContainer.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                expandableView.collapse();
+                return false;
+            }
+        });
         bottomFragment = findViewById(R.id.bottom_fragment);
         mainFragmentOverlay = findViewById(R.id.man_fragment_overlay);
+        mainFragmentOverlay.setOnTouchListener( new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                expandableView.collapse();
+                return true;
+            }
+        });
 
         expandableView = new ExpandableOnClickView(bottomButton, bottomFragment, ExpandableOnClickView.State.COLLAPSED);
         expandableView.addSizeListener(this);
@@ -47,7 +70,6 @@ public class MainActivity extends Activity implements ExpandableOnClickView.Visi
     @Override
     public void onExpansionStarted() {
         mainFragmentOverlay.setVisibility(View.VISIBLE);
-        mainFragmentContainer.setClickable(false);
     }
 
     @Override
@@ -58,7 +80,6 @@ public class MainActivity extends Activity implements ExpandableOnClickView.Visi
     @Override
     public void onViewCollapsed() {
         mainFragmentOverlay.setVisibility(View.GONE);
-        mainFragmentContainer.setClickable(true);
     }
 
     @Override
@@ -69,7 +90,27 @@ public class MainActivity extends Activity implements ExpandableOnClickView.Visi
     @Override
     public void onViewSizeUpdated(float fraction) {
         float maxAlpha = 0.75f;
-        Log.d("FLOAT", "Overlay alpha " + fraction);
         mainFragmentOverlay.setAlpha(fraction * maxAlpha / 100);
     }
+
+    @Override
+    public void displayEvent(Event event) {
+        EventFragment eventFragment = new EventFragment(event);
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(R.anim.slide_in_from_right , R.anim.slide_out_to_left, R.anim.slide_in_from_left, R.anim.slide_out_to_right); //TODO: Create own animators for each slide in/out and set custom animations, and pop custom animations
+        transaction.replace(R.id.main_fragment_container, eventFragment);
+        transaction.addToBackStack("displayEvent");
+        transaction.commit();
+        expandableView.collapse();
+    }
+
+    @Override
+    public void onBackPressed(){
+        if(expandableView.isExpanded()){
+            expandableView.collapse();
+        }else{
+            super.onBackPressed();
+        }
+    }
+
 }

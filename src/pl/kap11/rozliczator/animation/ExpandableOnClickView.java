@@ -54,13 +54,15 @@ public class ExpandableOnClickView {
 
 
     private void setOnClickView(View onClick) {
-        this.clickView = onClick;
-        onClick.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                changeState();
-            }
-        });
+        if(onClick != null){
+            this.clickView = onClick;
+            onClick.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    changeState();
+                }
+            });
+        }
     }
 
     public void setExpandableView(View expandable) {
@@ -80,6 +82,19 @@ public class ExpandableOnClickView {
         expandedHeightParam = heightParam;
     }
 
+
+    public void collapse() {
+        setState(State.COLLAPSED);
+    }
+
+    public void expand() {
+        setExpandedState();
+    }
+
+    public boolean isExpanded(){ return currentState == State.EXPANDED; }
+
+    public boolean isCollapsed(){ return currentState == State.COLLAPSED; }
+
     private void changeState() {
         if (currentState == State.COLLAPSED) {
             setState(State.EXPANDED);
@@ -89,15 +104,17 @@ public class ExpandableOnClickView {
     }
 
     private void setState(State state) {
-        this.currentState = state;
-        if (currentState == State.COLLAPSED) {
-            collapse();
-        } else {
-            expand();
+        if(currentState!=state){
+            this.currentState = state;
+            if (currentState == State.COLLAPSED) {
+                setCollapsedState();
+            } else {
+                setExpandedState();
+            }
         }
     }
 
-    private void collapse() {
+    private void setCollapsedState() {
         ValueAnimator collapse = new ValueAnimator();
         collapse.setInterpolator(new AccelerateDecelerateInterpolator());
         collapse.setDuration(COLLAPSE_ANIMATION_DURATION);
@@ -135,10 +152,9 @@ public class ExpandableOnClickView {
             }
         });
         collapse.start();
-
     }
 
-    private void expand() {
+    private void setExpandedState() {
         ValueAnimator expand = new ValueAnimator();
         expandableView.measure(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.WRAP_CONTENT);
         final int viewHeight = expandableView.getMeasuredHeight();
