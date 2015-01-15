@@ -55,14 +55,24 @@ public class Event implements Parcelable {
 	
 	@Override
 	public int describeContents() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
-		// TODO Auto-generated method stub
-
+		dest.writeString(name);
+        dest.writeArray(people.toArray());
+        dest.writeArray(items.toArray());
 	}
+
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+        public Event createFromParcel(Parcel in) {
+            return null;
+        }
+
+        public Event[] newArray(int size) {
+            return new Event[size];
+        }
+    };
 
 }

@@ -15,6 +15,7 @@ import pl.kap11.rozliczator.R;
 public class EventDetailsFragment extends Fragment {
 
     private Event event;
+    private final static String KEY_DISPLAYED_EVENT = "event";
 
     public EventDetailsFragment(){}
 
@@ -29,4 +30,10 @@ public class EventDetailsFragment extends Fragment {
         titleText.setText(event.getName());
         return mainView;
     }
+
+    @Override
+    public void onSaveInstanceState(final Bundle outState){
+        outState.putParcelable(KEY_DISPLAYED_EVENT, event);
+    }
+
 }
