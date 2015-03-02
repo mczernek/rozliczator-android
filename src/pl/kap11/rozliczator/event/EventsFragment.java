@@ -2,6 +2,7 @@ package pl.kap11.rozliczator.event;
 
 import pl.kap11.rozliczator.R;
 import pl.kap11.rozliczator.event.storage.EventStorage;
+import pl.kap11.rozliczator.event.storage.EventStorageFactory;
 import pl.kap11.rozliczator.event.storage.TemporaryEventStorage;
 import android.app.Fragment;
 import android.os.Bundle;
@@ -23,7 +24,7 @@ public class EventsFragment extends Fragment {
 	
 	public void onActivityCreated(Bundle savedInstanceState){
 		super.onActivityCreated(savedInstanceState);
-		EventStorage storage = new TemporaryEventStorage();
+		EventStorage storage = EventStorageFactory.getEventStorage();
 		final ListAdapter adapter = new EventsAdapter(getActivity(), storage);
         ListView list = ((ListView)getView().findViewById(R.id.events_list));
 		list.setAdapter(adapter);

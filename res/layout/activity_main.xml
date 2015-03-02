@@ -58,13 +58,10 @@
             android:layout_height="match_parent"
             android:visibility="visible">
 
-        <TextView
+        <FrameLayout
             android:id="@+id/hidden_fragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#80000000"
-            android:textSize="50sp"
-            android:text="Bottom expandable fragment"
             android:visibility="gone"/>
 
         </FrameLayout>

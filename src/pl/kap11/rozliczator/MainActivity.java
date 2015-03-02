@@ -2,12 +2,15 @@ package pl.kap11.rozliczator;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import pl.kap11.rozliczator.animation.BottomActionButtons;
 import pl.kap11.rozliczator.animation.BottomButtonsFactory;
+import pl.kap11.rozliczator.animation.BottomFragmentFactory;
 import pl.kap11.rozliczator.animation.SingleBottomButton;
 import pl.kap11.rozliczator.event.Event;
 import pl.kap11.rozliczator.event.EventDisplay;
@@ -15,7 +18,7 @@ import pl.kap11.rozliczator.event.EventDisplay;
 public class MainActivity extends Activity implements SingleBottomButton.VisibilityListener, EventDisplay.EventsDisplayStateCallbacks {
 
     View bottomButton;
-    View bottomFragment;
+    ViewGroup bottomFragment;
     View mainFragmentContainer;
 
     EventDisplay eventDisplay;
@@ -40,7 +43,10 @@ public class MainActivity extends Activity implements SingleBottomButton.Visibil
                 return false;
             }
         });
-        bottomFragment = findViewById(R.id.hidden_fragment);
+        bottomFragment = (ViewGroup)findViewById(R.id.hidden_fragment);
+
+        BottomFragmentFactory.attachMainBottomFragmentToContainer(LayoutInflater.from(this), bottomFragment, eventDisplay);
+
         mainFragmentOverlay = findViewById(R.id.man_fragment_overlay);
         mainFragmentOverlay.setOnTouchListener(new View.OnTouchListener() {
             @Override

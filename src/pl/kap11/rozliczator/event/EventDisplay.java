@@ -7,9 +7,6 @@ import android.view.View;
 
 import pl.kap11.rozliczator.R;
 
-/**
- * Created by mczernek on 12.01.15.
- */
 public class EventDisplay implements EventsDisplayer {
 
     public interface EventsDisplayStateCallbacks {
