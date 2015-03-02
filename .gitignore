@@ -28,3 +28,5 @@ proguard/
 
 #Idea files
 .idea/
+.idea/**
+rozliczator-android.iml
